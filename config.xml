@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="dbike.tracker.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>dbike Tracker</name>
+    <description>
+        An application for checking current availability and prediciting future availability of dublin bikes
+    </description>
+    <author email="dbiketracker@gmail.com" href="http://iadt.ie">
+        dbiketracker Team
+    </author>
+	      <icon src="www/img/logo.png" />
+    <content src="index.html" />
+    <plugin name="cordova-plugin-whitelist" spec="1" />
+    <access origin="*" />
+	<access origin="http://maps.google.com" />
+	<access origin ="http://dbiketrackerv2.herokuapp.com/" />
+	<access origin ="http://dbiketrackerv2.herokuapp.com/view-locations-sql.php" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+    </platform>
+    <engine name="android" spec="~6.0.0" />
+</widget>

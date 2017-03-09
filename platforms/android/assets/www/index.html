@@ -1,0 +1,153 @@
+<html>
+
+<head>
+    <!-- set the character set to utf - 8 
+    all cordova default lines-->
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <!--    link our external stylesheet -->
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <!--    google fonts linnk -->
+    <link href="https://fonts.googleapis.com/css?family=Julius+Sans+One" rel="stylesheet">
+    <!--  cdn for jquery mobile  -->
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <!--  link the google maps api to our application  -->
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBO0A9Jx2ee53ZXKAVQx3OYzxw3whZs0Jg&libraries=geometry"></script>
+    <!--  link the cdn for jquery  -->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <!--  link the jquery moble cdn  -->
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <!--  link to the datebox/clock widget   -->
+    <link rel="stylesheet" type="text/css" href="css/jtsage-datebox-4.1.1.jqm.min.css" />
+    <!--  link the javascript to enable the datebox/clock scroller  -->
+    <script type="text/javascript" src="js/jtsage-datebox-4.1.1.jqm.min.js"></script>
+    <!--  link to the javascript for geolocation  -->
+    <script type="text/javascript" src="js/geolocation-marker.js"></script>
+    <!-- link the cordova javascript ESSENTIAL FOR NATIVE DEVICE APIS   -->
+    <script type="text/javascript" src="cordova.js"></script>
+    <!--  link to the javascript functions for our map  -->
+    <script type="text/javascript" src="js/map.js"></script>
+    <script type="text/javascript">
+        //function to connect to the database on opening of the application
+        function doSomething() {
+            //get request to our connect script hosted on heroku
+            $.get("https://dbiketrackerv2.herokuapp.com/connect.php");
+            return "not connected";
+        }
+        // Function called when page has loaded
+        function init() {
+            document.addEventListener("deviceready", onDeviceReady, false);
+        }
+        // Function called when phonegap is ready
+        function onDeviceReady() {
+            //All pages at least 100% of viewport height
+            var viewPortHeight = $(window).height();
+            var headerHeight = $('div[data-role="header"]').height();
+            var footerHeight = $('div[data-role="footer"]').height();
+            var contentHeight = viewPortHeight - headerHeight - footerHeight;
+            // Set all pages with class="page-content" to be at least contentHeight
+            $('div[class="page-content"]').css({
+                'min-height': contentHeight + 'px'
+            });
+        }
+        //function to set the time in the timebox to the current time, still need to get it to round up to correspond with the format of our future search
+        $(function () {
+            $('input[type="text"][value="now"]').each(function () {
+                var d = new Date() //create a new dat
+                    
+                    , h = d.getHours() //set a variable h to getting the hours of the new date
+                    
+                    , m = d.getMinutes(); //set a variabl m to getting the minutes of the new date
+                if (h < 10) h = '0' + h; //if h < 10 add a 0 to the front of it
+                if (m < 10) m = '0' + m; //if m < 10 add 0 to the front of it 
+                $(this).attr({
+                    'value': h + ':' + m //the value is 00:00
+                });
+            });
+        });
+    </script>
+    <title>"dbike tracker"</title>
+</head>
+
+<body>
+    <!--  class to determine where the content of the phone application will go  -->
+    <div class="ui-content" data-role="page" id="map-page" data-url="map-page">
+        <!--    wrapper to contain the info window that will overlay the map and the application    -->
+        <div id="wrapper">
+            <!--     all serach functionality going in the div       -->
+            <div id="search" class="ui-grid-a">
+                <!--        logo bar where the icon and name of the application will go        -->
+                <div id="logo_bar">
+                    <h3>bike_tracker</h3>
+                    <!--                div for the logo     -->
+                    <div id="bike_logo"> <img src="img/bike.png" width="36px" height="36px" /> </div>
+                    <!--                    <div id="help"> <img src="img/question.png" width="36px" height="36px" /></div>--></div>
+                <!--         need a  form to post to our heroku application so that we can run our queries       -->
+                <form method="post">
+                    <!--        select/type out a station from the list             -->
+                    <select value="Choose a station" id="liveSearch" name="statnum" data-filter="true" data-input="#searchForSelect"></select>
+                    <!--         add date and time so users can search in the future based on the time and date they enter        -->
+                    <div id="futureSearch">
+                        <!--          give the time half width of the div              -->
+                        <div class="ui-block-a half-width">
+                            <!--       time flip box to allow users to scroll smoothly ish        -->
+                            <label>time</label>
+                            <input type="text" id="time" data-role="datebox" name="time" placeholder="Time" data-options='{"mode":"timeflipbox","minuteStep":"10", "useNewStyle":true, "overrideTimeFormat": 24, "themeButton": "b", "themeInput": "a", "theme": "b", "themeHeader": "b"}' /> </div>
+                        <!--          give the date half width of the div              -->
+                        <div class="ui-block-b half-width">
+                            <label>date</label>
+                            <!--          input date will default to the os version of the calendat       -->
+                            <input type="date" value="" name="date" id="date" placeholder="Date" /> </div>
+                        <!--         submit button to post the form       -->
+                        <input id="submit_btn" type="submit" name="submit" id="submit" value="submit" /> </form>
+                </div>
+                <!--   closing future search div    -->
+            </div>
+            <!--     closing search div       -->
+            <!--            div for the map    -->
+            <div role="main" class="ui-content" id="map-canvas"> </div>
+            <!--      search result/info window to be displayed over the map      -->
+            <div id="searchResult"></div>
+            <div id="over_map" data-theme="b" data-content-theme="b">
+                <h3>See More...</h3>
+                <div id=output></div>
+                <!--      closing the div          -->
+            </div>
+            <!--            closing the wrapper div  -->
+        </div>
+    </div>
+    <!--    clsoing ui content div   -->
+</body>
+
+</html>
+<script>
+    //enable cross origin requests
+    jQuery.ajaxPrefilter(function (options) {
+        if (options.crossDomain && jQuery.support.cors) {
+            options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
+        }
+    });
+    //on form submit do this
+    $('form').submit(function () {
+        var postData = $(this).serialize(); //post the data
+        $.ajax({
+            type: 'POST' //type of request 
+                
+            , data: postData //which data will it send 
+                
+            , url: 'https://dbiketrackerv2.herokuapp.com/php-scripts/searchavail.php' //what url/where is the data being posted too
+                
+            , success: function (data) { //on success function do this 
+                console.log(data); //log the data to a console 
+                document.getElementById("output").innerHTML += data; //write the data to our output div
+            }
+            , error: function () {
+                console.log(data);
+                alert('ERRORRRR ERRRRORRRR');
+            }
+        });
+        return false;
+    });
+</script>

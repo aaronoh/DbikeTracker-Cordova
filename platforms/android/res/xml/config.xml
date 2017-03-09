@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="dbike.tracker.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="GoogleMaps">
+        <param name="android-package" value="plugin.google.maps.GoogleMaps" />
+        <param name="onload" value="true" />
+        <param name="onreset" value="true" />
+    </feature>
+    <feature name="External">
+        <param name="android-package" value="plugin.google.maps.External" />
+    </feature>
+    <feature name="Geocoder">
+        <param name="android-package" value="plugin.google.maps.MyGeocoder" />
+    </feature>
+    <feature name="Accelerometer">
+        <param name="android-package" value="org.apache.cordova.devicemotion.AccelListener" />
+    </feature>
+    <feature name="Compass">
+        <param name="android-package" value="org.apache.cordova.deviceorientation.CompassListener" />
+    </feature>
+    <feature name="Geolocation">
+        <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
+    </feature>
+    <allow-navigation href="content:*" />
+    <feature name="jsHybugger">
+        <param name="android-package" value="org.jshybugger.cordova.JsHybuggerPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <name>dbike Tracker</name>
+    <description>
+        An application for checking current availability and prediciting future availability of dublin bikes
+    </description>
+    <author email="dbiketracker@gmail.com" href="http://iadt.ie">
+        dbiketracker Team
+    </author>
+    <icon src="www/img/logo.png" />
+    <content src="index.html" />
+    <access origin="*" />
+    <access origin="http://maps.google.com" />
+    <access origin="http://dbiketrackerv2.herokuapp.com/" />
+    <access origin="http://dbiketrackerv2.herokuapp.com/view-locations-sql.php" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <allow-intent href="market:*" />
+    <preference name="loglevel" value="DEBUG" />
+    <preference name="loadUrlTimeoutValue" value="180000" />
+</widget>
