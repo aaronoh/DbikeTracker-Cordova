@@ -7,44 +7,82 @@ html,
 body {
     width: 100%;
     height: 100%;
-    padding-top: 10%;
-    font-family: 'Julius Sans One', sans-serif !important;
     color: white;
 }
 
 #map-page,
 #map-canvas {
     width: 100%;
-    height: 67%;
+    height: 63%;
     padding: 0;
     margin-top: 0px;
-    z-index: 0;
 }
+
+table {
+    width: 100%;
+    color: white;
+}
+
+tr {
+    width: 100%;
+}
+
+td {
+    text-align: center;
+    border: 1px solid black;
+}
+
+#map-canvas {}
 
 #wrapper {
     position: relative;
 }
 
+#panel,
+#flip {
+    padding: 5px;
+    text-align: center;
+    background-color: #e5eecc;
+    border: solid 1px #c3c3c3;
+}
+
+#panel {
+    padding: 50px;
+    display: none;
+}
+
 #over_map {
     position: absolute;
-    background-color: transparent;
-    top: 90%;
+    background-color: #34495e;
+    top: 80%;
+    min-height: inherit;
+    max-height: 500px;
+    color: white;
     width: 100%;
-    z-index: 99;
-    background: white;
+    z-index: 2;
+}
+
+#wrapper {
+    height: 100%;
 }
 
 #search {
     /*    background-image: url(../img/header.jpg);*/
     background-repeat: no-repeat;
     background-color: #f7ca18;
-    height: 250px;
+    height: 37%;
     width: 100%;
+    text-transform: none;
 }
 
 .half-width {
     width: 50%;
 }
+
+
+/*.qtr-width {
+    width: 25%;
+}*/
 
 #searchIcon {
     width: 64px;
@@ -54,10 +92,20 @@ body {
     margin-top: 130px;
 }
 
+.ui-block-b h3 {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 40px;
+}
+
 #logo_bar {
     height: 40px;
     background-color: #19b5fe;
     text-align: center;
+}
+
+#logo_bar .ui-block-c {
+    margin-left: 50%;
 }
 
 #logo_bar h3 {
@@ -70,11 +118,27 @@ body {
 #bike_logo {
     background-color: #3a539b;
     height: 40px;
-    width: 40px;
+    width: 48px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto
 }
 
-#bike_logo img:first-child {
+.help-btn {
+    display: block;
     margin: auto;
+    float: right;
+}
+
+.bike-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+#thick-text {
+    font-weight: bolder;
+    font-size: 25px;
 }
 
 
@@ -84,16 +148,17 @@ body {
 }
 */
 
-#submit_btn {
+#submit_btn .ui-btn {
     background-color: #35befe !important;
     opacity: 0.7;
     color: white;
+    width: 100% !important;
     /*    font-family: 'Julius Sans One', sans-serif !important;*/
     /*
     display: block;
     position: absolute;
     left: 50%;
-        right: 50%;
+    right: 50%;
     transform: translateY(-50%) translateX(-50%);
 */
 }

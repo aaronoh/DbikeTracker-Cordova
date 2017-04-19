@@ -1,18 +1,19 @@
 <html>
 
 <head>
-    <!-- set the character set to utf - 8 
+    <!-- set the character set to utf - 8
     all cordova default lines-->
     <meta charset="utf-8" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     <!--    link our external stylesheet -->
-    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
     <!--    google fonts linnk -->
     <link href="https://fonts.googleapis.com/css?family=Julius+Sans+One" rel="stylesheet">
     <!--  cdn for jquery mobile  -->
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <!-- <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />-->
+    <link rel="stylesheet" href="css/jquerym.css" />
     <!--  link the google maps api to our application  -->
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBO0A9Jx2ee53ZXKAVQx3OYzxw3whZs0Jg&libraries=geometry"></script>
     <!--  link the cdn for jquery  -->
@@ -61,7 +62,7 @@
                     
                     , m = d.getMinutes(); //set a variabl m to getting the minutes of the new date
                 if (h < 10) h = '0' + h; //if h < 10 add a 0 to the front of it
-                if (m < 10) m = '0' + m; //if m < 10 add 0 to the front of it 
+                if (m < 10) m = '0' + m; //if m < 10 add 0 to the front of it
                 $(this).attr({
                     'value': h + ':' + m //the value is 00:00
                 });
@@ -73,36 +74,54 @@
 
 <body>
     <!--  class to determine where the content of the phone application will go  -->
-    <div class="ui-content" data-role="page" id="map-page" data-url="map-page">
+ <div class="ui-content" data-role="page" id="map-page" data-url="map-page">
         <!--    wrapper to contain the info window that will overlay the map and the application    -->
         <div id="wrapper">
             <!--     all serach functionality going in the div       -->
             <div id="search" class="ui-grid-a">
                 <!--        logo bar where the icon and name of the application will go        -->
-                <div id="logo_bar">
-                    <h3>bike_tracker</h3>
+                <div id="logo_bar" class="ui-grid-b">
                     <!--                div for the logo     -->
-                    <div id="bike_logo"> <img src="img/bike.png" width="36px" height="36px" /> </div>
-                    <!--                    <div id="help"> <img src="img/question.png" width="36px" height="36px" /></div>--></div>
+                    <div id="bike_logo" class="ui-block-a"> <img id="bike-img" src="img/bikelogo.png" /> </div>
+                    <div class="ui-block-b">
+                        <h3>bike_tracker</h3></div>
+                    <!--                    <div id="help"> <img src="img/question.png" width="36px" height="36px" /></div>-->
+                    <div class="ui-block-c push-left">
+                        <a href="#help"><img src="img/question.png" class="help-btn" width="36px" height="36px" /></a>
+                    </div>
+                </div>
                 <!--         need a  form to post to our heroku application so that we can run our queries       -->
                 <form method="post">
                     <!--        select/type out a station from the list             -->
-                    <select value="Choose a station" id="liveSearch" name="statnum" data-filter="true" data-input="#searchForSelect"></select>
+                    <select value="Choose a station" id="liveSearch" class="ui-grid-solo" name="statnum" data-filter="true" data-input="#searchForSelect"></select>
                     <!--         add date and time so users can search in the future based on the time and date they enter        -->
-                    <div id="futureSearch">
+                    <div id="futureSearch" class="ui-grid-c">
                         <!--          give the time half width of the div              -->
-                        <div class="ui-block-a half-width">
-                            <!--       time flip box to allow users to scroll smoothly ish        -->
-                            <label>time</label>
+                        <div class="ui-block-a">
+                            <h4>time</h4></div>
+                        <!--       time flip box to allow users to scroll smoothly ish        -->
+                        <div class="ui-block-b thick-text">
                             <input type="text" id="time" data-role="datebox" name="time" placeholder="Time" data-options='{"mode":"timeflipbox","minuteStep":"10", "useNewStyle":true, "overrideTimeFormat": 24, "themeButton": "b", "themeInput": "a", "theme": "b", "themeHeader": "b"}' /> </div>
                         <!--          give the date half width of the div              -->
-                        <div class="ui-block-b half-width">
-                            <label>date</label>
+                        <div class="ui-block-c">
+                            <h4>date</h4></div>
+                        <div class="ui-block-d">
                             <!--          input date will default to the os version of the calendat       -->
                             <input type="date" value="" name="date" id="date" placeholder="Date" /> </div>
-                        <!--         submit button to post the form       -->
-                        <input id="submit_btn" type="submit" name="submit" id="submit" value="submit" /> </form>
-                </div>
+                    </div>
+                    <!--         submit button to post the form       -->
+                    <br>
+                    <!--
+<br>
+<br>
+-->
+                    <input id="submit_btn" type="submit" name="submit" value="submit" />
+                    <script>
+                        $('#liveSearch').on('tap', function (e) {
+                            $('#over_map').show();
+                        });
+                    </script>
+                </form>
                 <!--   closing future search div    -->
             </div>
             <!--     closing search div       -->
@@ -110,9 +129,8 @@
             <div role="main" class="ui-content" id="map-canvas"> </div>
             <!--      search result/info window to be displayed over the map      -->
             <div id="searchResult"></div>
-            <div id="over_map" data-theme="b" data-content-theme="b">
-                <h3>See More...</h3>
-                <div id=output></div>
+            <div id="over_map" data-theme="b" data-content-theme="b" hidden>
+                <!--                <div id=output></div>-->
                 <!--      closing the div          -->
             </div>
             <!--            closing the wrapper div  -->
@@ -122,32 +140,3 @@
 </body>
 
 </html>
-<script>
-    //enable cross origin requests
-    jQuery.ajaxPrefilter(function (options) {
-        if (options.crossDomain && jQuery.support.cors) {
-            options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
-        }
-    });
-    //on form submit do this
-    $('form').submit(function () {
-        var postData = $(this).serialize(); //post the data
-        $.ajax({
-            type: 'POST' //type of request 
-                
-            , data: postData //which data will it send 
-                
-            , url: 'https://dbiketrackerv2.herokuapp.com/php-scripts/searchavail.php' //what url/where is the data being posted too
-                
-            , success: function (data) { //on success function do this 
-                console.log(data); //log the data to a console 
-                document.getElementById("output").innerHTML += data; //write the data to our output div
-            }
-            , error: function () {
-                console.log(data);
-                alert('ERRORRRR ERRRRORRRR');
-            }
-        });
-        return false;
-    });
-</script>
